@@ -1,3 +1,5 @@
+using System.Numerics;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
@@ -6,14 +8,14 @@ app.MapGet("/abesdzegiorgi_gmail_com", (string? x, string? y) =>
     if (string.IsNullOrWhiteSpace(x) || string.IsNullOrWhiteSpace(y))
         return Results.Text("NaN");
 
-    if (!long.TryParse(x.Trim(), out long a) ||
-        !long.TryParse(y.Trim(), out long b) ||
-        a <= 0 || b <= 0)
-    {
+    if (!BigInteger.TryParse(x.Trim(), out BigInteger a) ||
+        !BigInteger.TryParse(y.Trim(), out BigInteger b))
         return Results.Text("NaN");
-    }
 
-    long Gcd(long m, long n)
+    if (a <= 0 || b <= 0)
+        return Results.Text("NaN");
+
+    BigInteger Gcd(BigInteger m, BigInteger n)
     {
         while (n != 0)
         {
@@ -22,8 +24,8 @@ app.MapGet("/abesdzegiorgi_gmail_com", (string? x, string? y) =>
         return m;
     }
 
-    long lcm = (a / Gcd(a, b)) * b;
-
+    BigInteger gcd = Gcd(a, b);
+    BigInteger lcm = (a / gcd) * b;
     return Results.Text(lcm.ToString());
 });
 
