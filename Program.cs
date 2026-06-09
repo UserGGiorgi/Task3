@@ -2,7 +2,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 
-app.MapGet("abesdze_giorgi_gmail_com", (string x, string y) =>
+app.MapGet("abesdzegiorgi_gmail_com", (string x, string y) =>
 {
     if (!long.TryParse(x, out long a) ||
         !long.TryParse(y, out long b) ||
