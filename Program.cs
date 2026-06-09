@@ -1,15 +1,13 @@
 var builder = WebApplication.CreateBuilder(args);
-
 var app = builder.Build();
 
-app.MapGet("abesdzegiorgi_gmail_com", (string x, string y) =>
+app.MapGet("/abesdzegiorgi_gmail_com", (string x, string y) =>
 {
     if (!long.TryParse(x, out long a) ||
         !long.TryParse(y, out long b) ||
-        a <= 0 ||
-        b <= 0)
+        a <= 0 || b <= 0)
     {
-        return "NaN";
+        return Results.Text("NaN");
     }
 
     long Gcd(long m, long n)
@@ -18,11 +16,12 @@ app.MapGet("abesdzegiorgi_gmail_com", (string x, string y) =>
         {
             (m, n) = (n, m % n);
         }
-
         return m;
     }
 
-    return ((a / Gcd(a, b)) * b).ToString();
+    long lcm = (a / Gcd(a, b)) * b;
+
+    return Results.Text(lcm.ToString());
 });
 
 app.Run();
